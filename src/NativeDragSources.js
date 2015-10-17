@@ -29,6 +29,12 @@ const nativeTypesConfig = {
     matchesTypes: ['Text', 'text/plain'],
     getData: (dataTransfer, matchesTypes) =>
       getDataFromDataTransfer(dataTransfer, matchesTypes, '')
+  },
+  [NativeTypes.HTML]: {
+    exposeProperty: 'html',
+    matchesTypes: ['text/html'],
+    getData: (dataTransfer, matchesType) =>
+      getDataFromDataTransfer(dataTransfer, matchesTypes, '')
   }
 };
 
