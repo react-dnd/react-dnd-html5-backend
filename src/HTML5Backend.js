@@ -31,6 +31,7 @@ export default class HTML5Backend {
     this.handleTopDropCapture = this.handleTopDropCapture.bind(this);
     this.handleSelectStart = this.handleSelectStart.bind(this);
     this.endDragIfSourceWasRemovedFromDOM = this.endDragIfSourceWasRemovedFromDOM.bind(this);
+    this.endDragNativeItem = this.endDragNativeItem.bind(this);
   }
 
   setup() {
@@ -170,9 +171,18 @@ export default class HTML5Backend {
     this.currentNativeSource = new SourceType();
     this.currentNativeHandle = this.registry.addSource(type, this.currentNativeSource);
     this.actions.beginDrag([this.currentNativeHandle]);
+
+    // If mousemove fires, the drag is over but browser failed to tell us.
+    window.addEventListener('mousemove', this.endDragNativeItem, true);
   }
 
   endDragNativeItem() {
+    if (!this.isDraggingNativeItem()) {
+      return;
+    }
+
+    window.removeEventListener('mousemove', this.endDragNativeItem, true);
+
     this.actions.endDrag();
     this.registry.removeSource(this.currentNativeHandle);
     this.currentNativeHandle = null;
