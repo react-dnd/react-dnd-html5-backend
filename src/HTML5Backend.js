@@ -43,8 +43,17 @@ export default class HTML5Backend {
       throw new Error('Cannot have two HTML5 backends at the same time.');
     }
     this.constructor.isSetUp = true;
-
     this.addEventListeners(window);
+  }
+
+  teardown() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    this.constructor.isSetUp = false;
+    this.removeEventListeners(window);
+    this.clearCurrentDragSourceNode();
   }
 
   addEventListeners(target) {
@@ -58,18 +67,6 @@ export default class HTML5Backend {
     target.addEventListener('dragover', this.handleTopDragOverCapture, true);
     target.addEventListener('drop', this.handleTopDrop);
     target.addEventListener('drop', this.handleTopDropCapture, true);
-  }
-
-  teardown() {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    this.constructor.isSetUp = false;
-
-    this.removeEventListeners(window);
-
-    this.clearCurrentDragSourceNode();
   }
 
   removeEventListeners(target) {
