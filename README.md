@@ -13,6 +13,12 @@ While we suggest you to use NPM, you can find the precompiled UMD build in the `
 
 There is no `dist` folder on the master branch.
 
+## Browser Support
+
+We strive to support the evergreen browsers, Safari 7+, as well as IE11+. IE10 should also work, but `DragLayer` is fairly useless because IE10 doesn’t support `pointer-events: none`. We don’t officialy support IE9 and less.
+
+Unfortunately the browser bugs, inconsistencies, and regressions come up from time to time, so please make sure you test your app on the browsers you’re interested in, and report any bugs to us.
+
 ## License
 
 MIT
