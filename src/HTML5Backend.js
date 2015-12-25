@@ -195,8 +195,9 @@ export default class HTML5Backend {
       return;
     }
 
-    this.actions.endDrag();
-    this.clearCurrentDragSourceNode();
+    if (this.clearCurrentDragSourceNode()) {
+      this.actions.endDrag();
+    }
   }
 
   setCurrentDragSourceNode(node) {
