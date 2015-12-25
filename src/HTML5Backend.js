@@ -43,17 +43,7 @@ export default class HTML5Backend {
       throw new Error('Cannot have two HTML5 backends at the same time.');
     }
     this.constructor.isSetUp = true;
-
-    window.addEventListener('dragstart', this.handleTopDragStart);
-    window.addEventListener('dragstart', this.handleTopDragStartCapture, true);
-    window.addEventListener('dragend', this.handleTopDragEndCapture, true);
-    window.addEventListener('dragenter', this.handleTopDragEnter);
-    window.addEventListener('dragenter', this.handleTopDragEnterCapture, true);
-    window.addEventListener('dragleave', this.handleTopDragLeaveCapture, true);
-    window.addEventListener('dragover', this.handleTopDragOver);
-    window.addEventListener('dragover', this.handleTopDragOverCapture, true);
-    window.addEventListener('drop', this.handleTopDrop);
-    window.addEventListener('drop', this.handleTopDropCapture, true);
+    this.addEventListeners(window);
   }
 
   teardown() {
@@ -62,19 +52,34 @@ export default class HTML5Backend {
     }
 
     this.constructor.isSetUp = false;
-
-    window.removeEventListener('dragstart', this.handleTopDragStart);
-    window.removeEventListener('dragstart', this.handleTopDragStartCapture, true);
-    window.removeEventListener('dragend', this.handleTopDragEndCapture, true);
-    window.removeEventListener('dragenter', this.handleTopDragEnter);
-    window.removeEventListener('dragenter', this.handleTopDragEnterCapture, true);
-    window.removeEventListener('dragleave', this.handleTopDragLeaveCapture, true);
-    window.removeEventListener('dragover', this.handleTopDragOver);
-    window.removeEventListener('dragover', this.handleTopDragOverCapture, true);
-    window.removeEventListener('drop', this.handleTopDrop);
-    window.removeEventListener('drop', this.handleTopDropCapture, true);
-
+    this.removeEventListeners(window);
     this.clearCurrentDragSourceNode();
+  }
+
+  addEventListeners(target) {
+    target.addEventListener('dragstart', this.handleTopDragStart);
+    target.addEventListener('dragstart', this.handleTopDragStartCapture, true);
+    target.addEventListener('dragend', this.handleTopDragEndCapture, true);
+    target.addEventListener('dragenter', this.handleTopDragEnter);
+    target.addEventListener('dragenter', this.handleTopDragEnterCapture, true);
+    target.addEventListener('dragleave', this.handleTopDragLeaveCapture, true);
+    target.addEventListener('dragover', this.handleTopDragOver);
+    target.addEventListener('dragover', this.handleTopDragOverCapture, true);
+    target.addEventListener('drop', this.handleTopDrop);
+    target.addEventListener('drop', this.handleTopDropCapture, true);
+  }
+
+  removeEventListeners(target) {
+    target.removeEventListener('dragstart', this.handleTopDragStart);
+    target.removeEventListener('dragstart', this.handleTopDragStartCapture, true);
+    target.removeEventListener('dragend', this.handleTopDragEndCapture, true);
+    target.removeEventListener('dragenter', this.handleTopDragEnter);
+    target.removeEventListener('dragenter', this.handleTopDragEnterCapture, true);
+    target.removeEventListener('dragleave', this.handleTopDragLeaveCapture, true);
+    target.removeEventListener('dragover', this.handleTopDragOver);
+    target.removeEventListener('dragover', this.handleTopDragOverCapture, true);
+    target.removeEventListener('drop', this.handleTopDrop);
+    target.removeEventListener('drop', this.handleTopDropCapture, true);
   }
 
   connectDragPreview(sourceId, node, options) {
@@ -195,8 +200,9 @@ export default class HTML5Backend {
       return;
     }
 
-    this.actions.endDrag();
-    this.clearCurrentDragSourceNode();
+    if (this.clearCurrentDragSourceNode()) {
+      this.actions.endDrag();
+    }
   }
 
   setCurrentDragSourceNode(node) {
