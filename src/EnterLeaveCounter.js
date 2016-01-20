@@ -1,5 +1,5 @@
-import union from 'lodash/array/union';
-import without from 'lodash/array/without';
+import union from 'lodash/union';
+import without from 'lodash/without';
 
 export default class EnterLeaveCounter {
   constructor() {

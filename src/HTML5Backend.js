@@ -1,4 +1,4 @@
-import defaults from 'lodash/object/defaults';
+import defaults from 'lodash/defaults';
 import shallowEqual from './shallowEqual';
 import EnterLeaveCounter from './EnterLeaveCounter';
 import { isFirefox } from './BrowserDetector';
