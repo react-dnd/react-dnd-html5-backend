@@ -2,7 +2,7 @@ import defaults from 'lodash/object/defaults';
 import shallowEqual from './shallowEqual';
 import EnterLeaveCounter from './EnterLeaveCounter';
 import { isFirefox } from './BrowserDetector';
-import { getNodeClientOffset, getEventClientOffset, getDragPreviewOffset } from './OffsetUtils';
+import { getNodeClientOffset, getEventClientOffset, getDragPreviewOffset, setZoom } from './OffsetUtils';
 import { createNativeDragSource, matchNativeItemType } from './NativeDragSources';
 import * as NativeTypes from './NativeTypes';
 
@@ -113,7 +113,26 @@ export default class HTML5Backend {
     };
   }
 
+  adjustForDropTargetZoom(node) {
+    if (node.style && node.style.zoom) {
+      const zoom = node.style.zoom.replace(/^\s+|\s+$/g, '');
+      if (zoom.length > 0) {
+        if (zoom === 'normal') {
+          setZoom(1);
+        } else {
+          let zoomValue = parseFloat(zoomValue);
+          if (isNaN(zoom)) {
+            zoomValue /= 100.0;
+          }
+          setZoom(zoomValue);
+        }
+      }
+    }
+  }
+
   connectDropTarget(targetId, node) {
+    this.adjustForDropTargetZoom(node);
+
     const handleDragEnter = (e) => this.handleDragEnter(e, targetId);
     const handleDragOver = (e) => this.handleDragOver(e, targetId);
     const handleDrop = (e) => this.handleDrop(e, targetId);
