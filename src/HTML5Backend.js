@@ -133,7 +133,9 @@ export default class HTML5Backend {
   }
 
   connectDropTarget(targetId, node, zoom) {
-    this.adjustForDropTargetZoom(node, zoom);
+    if(navigator.userAgent.toLowerCase().indexOf('firefox') == -1) {
+      this.adjustForDropTargetZoom(node, zoom);
+    }
 
     const handleDragEnter = (e) => this.handleDragEnter(e, targetId);
     const handleDragOver = (e) => this.handleDragOver(e, targetId);
