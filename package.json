@@ -36,7 +36,7 @@
     "webpack": "^1.12.2"
   },
   "dependencies": {
-    "lodash": "^3.10.1"
+    "lodash": "^4.0.0"
   },
   "peerDependencies": {
     "react-dnd": "^2.0.0"
