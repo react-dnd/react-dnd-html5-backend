@@ -494,11 +494,27 @@ export default class HTML5Backend {
   }
 
   handleSelectStart(e) {
-    // Prevent selection on IE
-    // and instead ask it to consider dragging.
-    if (typeof e.target.dragDrop === 'function') {
-      e.preventDefault();
-      e.target.dragDrop();
+    const { target } = e;
+
+    // Only IE requires us to explicitly say
+    // we want drag drop operation to start
+    if (typeof target.dragDrop !== 'function') {
+      return;
     }
+
+    // Inputs and textareas should be selectable
+    if (
+      target.tagName === 'INPUT' ||
+      target.tagName === 'SELECT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.isContentEditable
+    ) {
+      return;
+    }
+
+    // For other targets, ask IE
+    // to enable drag and drop
+    e.preventDefault();
+    target.dragDrop();
   }
 }
