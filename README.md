@@ -5,13 +5,19 @@ See [the docs](http://gaearon.github.io/react-dnd/docs-html5-backend.html) for u
 
 ## Installation
 
+If you use [npm](http://npmjs.com):
+
 ```
 npm install --save react-dnd-html5-backend
 ```
 
-While we suggest you to use NPM, you can find the precompiled UMD build in the `dist` folder available on the [`latest` branch](https://github.com/gaearon/react-dnd-html5-backend/tree/latest/dist) as well as in every [tagged release](https://github.com/gaearon/react-dnd-html5-backend/releases). This is where you can point Bower if that’s what you use.
+The npm package defaults to the CommonJS build.
 
-There is no `dist` folder on the master branch.
+However it also includes a pre-minified UMD build in the `dist` folder.
+The UMD build exports a global `window.ReactDnDHTML5Backend` when imported as a `<script>` tag.
+
+If you’d rather not use npm, you can use [npmcdn](http://npmcdn.com/) to access the UMD build directly: [ReactDnDHTML5Backend.min.js](https://npmcdn.com/react-dnd-html5-backend@2.0.2/dist/ReactDnDHTML5Backend.min.js).  
+You may point your Bower config to it.
 
 ## Browser Support
 
