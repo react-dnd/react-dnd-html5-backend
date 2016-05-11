@@ -16,7 +16,7 @@ const nativeTypesConfig = {
     exposeProperty: 'files',
     matchesTypes: ['Files'],
     getData: (dataTransfer) =>
-      Array.prototype.slice.call(dataTransfer.files)
+      dataTransfer.files && Array.prototype.slice.call(dataTransfer.files)
   },
   [NativeTypes.URL]: {
     exposeProperty: 'urls',
@@ -76,7 +76,9 @@ export function matchNativeItemType(dataTransfer) {
   const dataTransferTypes = Array.prototype.slice.call(dataTransfer.types || []);
 
   return Object.keys(nativeTypesConfig).filter(nativeItemType => {
-    const { matchesTypes } = nativeTypesConfig[nativeItemType];
-    return matchesTypes.some(t => dataTransferTypes.indexOf(t) > -1);
+    const nativeTypeConfig = nativeTypesConfig[nativeItemType];
+    const matchesTypes = nativeTypeConfig.matchesTypes;
+    return matchesTypes.some(t => dataTransferTypes.indexOf(t) > -1) &&
+      nativeItemType.getData(dataTransfer);
   })[0] || null;
 }
