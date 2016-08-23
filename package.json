@@ -35,7 +35,11 @@
     "webpack": "^1.12.2"
   },
   "dependencies": {
-    "lodash": "^4.2.0"
+    "lodash": "^4.2.0",
+    "lodash.defaults": "^4.2.0",
+    "lodash.memoize": "^4.1.2",
+    "lodash.union": "^4.6.0",
+    "lodash.without": "^4.4.0"
   },
   "peerDependencies": {
     "react-dnd": "^2.0.0"
