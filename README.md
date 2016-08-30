@@ -3,6 +3,23 @@
 The officially supported HTML5 backend for [React DnD](http://gaearon.github.io/react-dnd/).  
 See [the docs](http://gaearon.github.io/react-dnd/docs-html5-backend.html) for usage information.
 
+## Asana Updating Steps
+
+In order to update the version of ReactDndHTML5Backend used by the asana app we must
+make the update in this repository and then upload the output js file as a static asset
+following the usual protocol for [adding static assets](https://github.com/Asana/codez/blob/asana2-master/asana2/docs/luna-ui/adding_static_assets.md).
+
+1. Clone the repo
+2. Add a PR for your change
+3. Run `npm install`
+4. Run `npm run build:umd`
+5. `s3cp dist/ReactDnDHTML5Backend.min.js b:/tmp/`
+6. `r b`
+7. `$CODEZ/admin/production/static_assets.py /tmp/ReactDnDHTML5Backend.min.js`
+8. Update BUILD file in asana2/third_party/workspace/ts_repositories.bzl to point to the CF url printed by the last command.
+9. Update same file with sha obtained by running `shasum -a 256 /tmp/ReactDnDHTML5Backend.min.js`
+
+
 ## Installation
 
 If you use [npm](http://npmjs.com):
