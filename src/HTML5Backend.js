@@ -40,10 +40,10 @@ export default class HTML5Backend {
       return;
     }
 
-    if (this.constructor.isSetUp) {
+    if (this.window.__isReactDndBackendSetUp) {
       throw new Error('Cannot have two HTML5 backends at the same time.');
     }
-    this.constructor.isSetUp = true;
+    this.window.__isReactDndBackendSetUp = true;
     this.addEventListeners(this.window);
   }
 
@@ -52,7 +52,7 @@ export default class HTML5Backend {
       return;
     }
 
-    this.constructor.isSetUp = false;
+    this.window.__isReactDndBackendSetUp = false;
     this.removeEventListeners(this.window);
     this.clearCurrentDragSourceNode();
   }
