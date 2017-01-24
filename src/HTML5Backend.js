@@ -134,7 +134,8 @@ export default class HTML5Backend {
     const sourceNodeOptions = this.sourceNodeOptions[sourceId];
 
     return defaults(sourceNodeOptions || {}, {
-      dropEffect: 'move'
+      dropEffect: 'move',
+      dataTransferData: {}
     });
   }
 
@@ -145,6 +146,10 @@ export default class HTML5Backend {
     }
 
     return this.getCurrentSourceNodeOptions().dropEffect;
+  }
+
+  getCurrentDataTransferData() {
+    return this.getCurrentSourceNodeOptions().dataTransferData;
   }
 
   getCurrentSourcePreviewNodeOptions() {
@@ -297,8 +302,9 @@ export default class HTML5Backend {
       }
 
       try {
-        // Firefox won't drag without setting data
-        dataTransfer.setData('application/json', {});
+        // a) Firefox won't drag without setting data
+        // b) Interop with external drag targets/drag libs
+        dataTransfer.setData('application/json', this.getCurrentDataTransferData());
       } catch (err) {
         // IE doesn't support MIME types in setData
       }
