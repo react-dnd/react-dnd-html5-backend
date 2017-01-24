@@ -1,9 +1,9 @@
 [![npm package](https://img.shields.io/npm/v/react-dnd-html5-backend.svg?style=flat-square)](https://www.npmjs.org/package/react-dnd-html5-backend)
 [![Build Status](https://travis-ci.org/react-dnd/react-dnd-html5-backend.svg?branch=master)](https://travis-ci.org/react-dnd/react-dnd-html5-backend)
-[![dependencies Status](https://david-dm.org/react-dnd/react-dnd-html5-backend/status.svg)](https://david-dm.org/react-dnd/react-dnd-html5-backend)
-[![devDependencies Status](https://david-dm.org/react-dnd/react-dnd-html5-backend/dev-status.svg)](https://david-dm.org/react-dnd/react-dnd-html5-backend?type=dev)
-[![peerDependencies Status](https://david-dm.org/react-dnd/react-dnd-html5-backend/peer-status.svg)](https://david-dm.org/react-dnd/react-dnd-html5-backend?type=peer)
-
+[![bitHound Overall Score](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend/badges/score.svg)](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend)
+[![bitHound Code](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend/badges/code.svg)](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend)
+[![bitHound Dependencies](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend/badges/dependencies.svg)](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend/master/dependencies/npm)
+[![bitHound Dev Dependencies](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend/badges/devDependencies.svg)](https://www.bithound.io/github/react-dnd/react-dnd-html5-backend/master/dependencies/npm)
 # React DnD HTML5 Backend
 
 The officially supported HTML5 backend for [React DnD](http://react-dnd.github.io/react-dnd/).
