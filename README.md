@@ -1,7 +1,7 @@
 # React DnD HTML5 Backend [![npm package](https://img.shields.io/npm/v/react-dnd-html5-backend.svg?style=flat-square)](https://www.npmjs.org/package/react-dnd-html5-backend)
 
-The officially supported HTML5 backend for [React DnD](http://gaearon.github.io/react-dnd/).  
-See [the docs](http://gaearon.github.io/react-dnd/docs-html5-backend.html) for usage information.
+The officially supported HTML5 backend for [React DnD](http://react-dnd.github.io/react-dnd/).
+See [the docs](http://react-dnd.github.io/react-dnd/docs-html5-backend.html) for usage information.
 
 ## Installation
 
@@ -16,7 +16,7 @@ The npm package defaults to the CommonJS build.
 However it also includes a pre-minified UMD build in the `dist` folder.
 The UMD build exports a global `window.ReactDnDHTML5Backend` when imported as a `<script>` tag.
 
-If you’d rather not use npm, you can use [unpkg](http://unpkg.com/) to access the UMD build directly: [ReactDnDHTML5Backend.min.js](https://unpkg.com/react-dnd-html5-backend@latest/dist/ReactDnDHTML5Backend.min.js).  
+If you’d rather not use npm, you can use [unpkg](http://unpkg.com/) to access the UMD build directly: [ReactDnDHTML5Backend.min.js](https://unpkg.com/react-dnd-html5-backend@latest/dist/ReactDnDHTML5Backend.min.js).
 You may point your Bower config to it.
 
 ## Browser Support
