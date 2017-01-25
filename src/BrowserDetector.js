@@ -1,9 +1,6 @@
-import memoize from 'lodash/memoize';
 
-export const isFirefox = memoize(() =>
-  /firefox/i.test(navigator.userAgent)
-);
+const _isSafari = Boolean(window.safari);
+const _isFirefox = !_isSafari && /firefox/i.test(navigator.userAgent);
 
-export const isSafari = memoize(() =>
-  Boolean(window.safari)
-);
+export const isFirefox = () => _isFirefox;
+export const isSafari = () => _isSafari;
