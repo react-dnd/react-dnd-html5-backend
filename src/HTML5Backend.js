@@ -11,6 +11,7 @@ export default class HTML5Backend {
     this.actions = manager.getActions();
     this.monitor = manager.getMonitor();
     this.registry = manager.getRegistry();
+    this.window = manager.getContext();
 
     this.sourcePreviewNodes = {};
     this.sourcePreviewNodeOptions = {};
@@ -35,24 +36,24 @@ export default class HTML5Backend {
   }
 
   setup() {
-    if (typeof window === 'undefined') {
+    if (typeof this.window === 'undefined') {
       return;
     }
 
-    if (this.constructor.isSetUp) {
+    if (this.window.__isReactDndBackendSetUp) {
       throw new Error('Cannot have two HTML5 backends at the same time.');
     }
-    this.constructor.isSetUp = true;
-    this.addEventListeners(window);
+    this.window.__isReactDndBackendSetUp = true;
+    this.addEventListeners(this.window);
   }
 
   teardown() {
-    if (typeof window === 'undefined') {
+    if (typeof this.window === 'undefined') {
       return;
     }
 
-    this.constructor.isSetUp = false;
-    this.removeEventListeners(window);
+    this.window.__isReactDndBackendSetUp = false;
+    this.removeEventListeners(this.window);
     this.clearCurrentDragSourceNode();
   }
 
@@ -180,7 +181,7 @@ export default class HTML5Backend {
     // On Firefox, if mousemove fires, the drag is over but browser failed to tell us.
     // This is not true for other browsers.
     if (isFirefox()) {
-      window.addEventListener('mousemove', this.endDragNativeItem, true);
+      this.window.addEventListener('mousemove', this.endDragNativeItem, true);
     }
   }
 
@@ -190,7 +191,7 @@ export default class HTML5Backend {
     }
 
     if (isFirefox()) {
-      window.removeEventListener('mousemove', this.endDragNativeItem, true);
+      this.window.removeEventListener('mousemove', this.endDragNativeItem, true);
     }
 
     this.actions.endDrag();
@@ -219,7 +220,7 @@ export default class HTML5Backend {
     // Receiving a mouse event in the middle of a dragging operation
     // means it has ended and the drag source node disappeared from DOM,
     // so the browser didn't dispatch the dragend event.
-    window.addEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
+    this.window.addEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
   }
 
   clearCurrentDragSourceNode() {
@@ -227,7 +228,7 @@ export default class HTML5Backend {
       this.currentDragSourceNode = null;
       this.currentDragSourceNodeOffset = null;
       this.currentDragSourceNodeOffsetChanged = false;
-      window.removeEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
+      this.window.removeEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
       return true;
     }
 
