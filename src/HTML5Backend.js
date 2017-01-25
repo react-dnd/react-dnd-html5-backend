@@ -97,8 +97,8 @@ export default class HTML5Backend {
     this.sourceNodes[sourceId] = node;
     this.sourceNodeOptions[sourceId] = options;
 
-    const handleDragStart = (e) => this.handleDragStart(e, sourceId);
-    const handleSelectStart = (e) => this.handleSelectStart(e, sourceId);
+    const handleDragStart = e => this.handleDragStart(e, sourceId);
+    const handleSelectStart = e => this.handleSelectStart(e, sourceId);
 
     node.setAttribute('draggable', true);
     node.addEventListener('dragstart', handleDragStart);
@@ -115,9 +115,9 @@ export default class HTML5Backend {
   }
 
   connectDropTarget(targetId, node) {
-    const handleDragEnter = (e) => this.handleDragEnter(e, targetId);
-    const handleDragOver = (e) => this.handleDragOver(e, targetId);
-    const handleDrop = (e) => this.handleDrop(e, targetId);
+    const handleDragEnter = e => this.handleDragEnter(e, targetId);
+    const handleDragOver = e => this.handleDragOver(e, targetId);
+    const handleDrop = e => this.handleDrop(e, targetId);
 
     node.addEventListener('dragenter', handleDragEnter);
     node.addEventListener('dragover', handleDragOver);
@@ -135,7 +135,7 @@ export default class HTML5Backend {
     const sourceNodeOptions = this.sourceNodeOptions[sourceId];
 
     return defaults(sourceNodeOptions || {}, {
-      dropEffect: 'move'
+      dropEffect: 'move',
     });
   }
 
@@ -155,7 +155,7 @@ export default class HTML5Backend {
     return defaults(sourcePreviewNodeOptions || {}, {
       anchorX: 0.5,
       anchorY: 0.5,
-      captureDraggingState: false
+      captureDraggingState: false,
     });
   }
 
@@ -166,7 +166,7 @@ export default class HTML5Backend {
   isDraggingNativeItem() {
     const itemType = this.monitor.getItemType();
     return Object.keys(NativeTypes).some(
-      key => NativeTypes[key] === itemType
+      key => NativeTypes[key] === itemType,
     );
   }
 
@@ -247,7 +247,7 @@ export default class HTML5Backend {
 
     this.currentDragSourceNodeOffsetChanged = !shallowEqual(
       getNodeClientOffset(node),
-      this.currentDragSourceNodeOffset
+      this.currentDragSourceNodeOffset,
     );
 
     return this.currentDragSourceNodeOffsetChanged;
@@ -272,7 +272,7 @@ export default class HTML5Backend {
     this.actions.beginDrag(dragStartSourceIds, {
       publishSource: false,
       getSourceClientOffset: this.getSourceClientOffset,
-      clientOffset
+      clientOffset,
     });
 
     const { dataTransfer } = e;
@@ -292,7 +292,7 @@ export default class HTML5Backend {
           sourceNode,
           dragPreview,
           clientOffset,
-          anchorPoint
+          anchorPoint,
         );
         dataTransfer.setDragImage(dragPreview, dragPreviewOffset.x, dragPreviewOffset.y);
       }
@@ -340,8 +340,9 @@ export default class HTML5Backend {
       )
     ) {
       // Looks like a Safari bug: dataTransfer.types is null, but there was no draggable.
-      // Just let it drag. It's a native type (URL or text) and will be picked up in dragenter handler.
-      return;
+      // Just let it drag. It's a native type (URL or text) and will be picked up in
+      // dragenter handler.
+      return; // eslint-disable-line no-useless-return
     } else {
       // If by this time no drag source reacted, tell browser not to drag.
       e.preventDefault();
@@ -393,12 +394,12 @@ export default class HTML5Backend {
       // will still happily dispatch `dragover` despite target being no longer
       // there. The easy solution is to only fire `hover` in `dragover` on FF.
       this.actions.hover(dragEnterTargetIds, {
-        clientOffset: getEventClientOffset(e)
+        clientOffset: getEventClientOffset(e),
       });
     }
 
     const canDrop = dragEnterTargetIds.some(
-      targetId => this.monitor.canDropOnTarget(targetId)
+      targetId => this.monitor.canDropOnTarget(targetId),
     );
 
     if (canDrop) {
@@ -429,11 +430,11 @@ export default class HTML5Backend {
     }
 
     this.actions.hover(dragOverTargetIds, {
-      clientOffset: getEventClientOffset(e)
+      clientOffset: getEventClientOffset(e),
     });
 
     const canDrop = dragOverTargetIds.some(
-      targetId => this.monitor.canDropOnTarget(targetId)
+      targetId => this.monitor.canDropOnTarget(targetId),
     );
 
     if (canDrop) {
@@ -488,7 +489,7 @@ export default class HTML5Backend {
     this.dropTargetIds = [];
 
     this.actions.hover(dropTargetIds, {
-      clientOffset: getEventClientOffset(e)
+      clientOffset: getEventClientOffset(e),
     });
     this.actions.drop();
 

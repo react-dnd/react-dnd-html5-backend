@@ -1,3 +1,7 @@
+/* eslint
+   no-plusplus: off,
+   no-mixed-operators: off
+*/
 export default class MonotonicInterpolant {
   constructor(xs, ys) {
     const length = xs.length;
