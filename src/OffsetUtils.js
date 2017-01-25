@@ -1,3 +1,6 @@
+/* eslint
+   no-mixed-operators: off
+*/
 import { isSafari, isFirefox } from './BrowserDetector';
 import MonotonicInterpolant from './MonotonicInterpolant';
 
@@ -19,7 +22,7 @@ export function getNodeClientOffset(node) {
 export function getEventClientOffset(e) {
   return {
     x: e.clientX,
-    y: e.clientY
+    y: e.clientY,
   };
 }
 
@@ -35,7 +38,7 @@ export function getDragPreviewOffset(sourceNode, dragPreview, clientOffset, anch
   const dragPreviewNodeOffsetFromClient = getNodeClientOffset(dragPreviewNode);
   const offsetFromDragPreview = {
     x: clientOffset.x - dragPreviewNodeOffsetFromClient.x,
-    y: clientOffset.y - dragPreviewNodeOffsetFromClient.y
+    y: clientOffset.y - dragPreviewNodeOffsetFromClient.y,
   };
 
   const { offsetWidth: sourceWidth, offsetHeight: sourceHeight } = sourceNode;
@@ -61,7 +64,7 @@ export function getDragPreviewOffset(sourceNode, dragPreview, clientOffset, anch
     // Align at the center
     (offsetFromDragPreview.x / sourceWidth) * dragPreviewWidth,
     // Dock to the right
-    offsetFromDragPreview.x + dragPreviewWidth - sourceWidth
+    offsetFromDragPreview.x + dragPreviewWidth - sourceWidth,
   ]);
   const interpolantY = new MonotonicInterpolant([0, 0.5, 1], [
     // Dock to the top
@@ -69,7 +72,7 @@ export function getDragPreviewOffset(sourceNode, dragPreview, clientOffset, anch
     // Align at the center
     (offsetFromDragPreview.y / sourceHeight) * dragPreviewHeight,
     // Dock to the bottom
-    offsetFromDragPreview.y + dragPreviewHeight - sourceHeight
+    offsetFromDragPreview.y + dragPreviewHeight - sourceHeight,
   ]);
   const x = interpolantX.interpolate(anchorX);
   let y = interpolantY.interpolate(anchorY);
