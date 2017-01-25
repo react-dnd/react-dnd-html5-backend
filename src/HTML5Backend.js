@@ -1,4 +1,5 @@
 import defaults from 'lodash/defaults';
+import setupTouchDNDCustomEvents from 'touch-dnd-custom-events';
 import shallowEqual from './shallowEqual';
 import EnterLeaveCounter from './EnterLeaveCounter';
 import { isFirefox } from './BrowserDetector';
@@ -44,6 +45,7 @@ export default class HTML5Backend {
     }
     this.constructor.isSetUp = true;
     this.addEventListeners(window);
+    this.addCustomEventListeners(window);
   }
 
   teardown() {
@@ -53,7 +55,41 @@ export default class HTML5Backend {
 
     this.constructor.isSetUp = false;
     this.removeEventListeners(window);
+    this.removeCustomEventListeners(window);
     this.clearCurrentDragSourceNode();
+  }
+
+  addCustomEventListeners(target) {
+    target.addEventListener(
+      'touchdragstart', this.handleTopDragStart
+    );
+    target.addEventListener(
+      'touchdragstart', this.handleTopDragStartCapture, true
+    );
+    target.addEventListener(
+      'touchdragend', this.handleTopDragEndCapture, true
+    );
+    target.addEventListener(
+      'touchdragenter', this.handleTopDragEnter
+    );
+    target.addEventListener(
+      'touchdragenter', this.handleTopDragEnterCapture, true
+    );
+    target.addEventListener(
+      'touchdragleave', this.handleTopDragLeaveCapture, true
+    );
+    target.addEventListener(
+      'touchdragover', this.handleTopDragOver
+    );
+    target.addEventListener(
+      'touchdragover', this.handleTopDragOverCapture, true
+    );
+    target.addEventListener(
+      'touchdrop', this.handleTopDrop
+    );
+    target.addEventListener(
+      'touchdrop', this.handleTopDropCapture, true
+    );
   }
 
   addEventListeners(target) {
@@ -67,6 +103,39 @@ export default class HTML5Backend {
     target.addEventListener('dragover', this.handleTopDragOverCapture, true);
     target.addEventListener('drop', this.handleTopDrop);
     target.addEventListener('drop', this.handleTopDropCapture, true);
+  }
+
+  removeCustomEventListeners(target) {
+    target.removeEventListener(
+      'touchdragstart', this.handleTopDragStart
+    );
+    target.removeEventListener(
+      'touchdragstart', this.handleTopDragStartCapture, true
+    );
+    target.removeEventListener(
+      'touchdragend', this.handleTopDragEndCapture, true
+    );
+    target.removeEventListener(
+      'touchdragenter', this.handleTopDragEnter
+    );
+    target.removeEventListener(
+      'touchdragenter', this.handleTopDragEnterCapture, true
+    );
+    target.removeEventListener(
+      'touchdragleave', this.handleTopDragLeaveCapture, true
+    );
+    target.removeEventListener(
+      'touchdragover', this.handleTopDragOver
+    );
+    target.removeEventListener(
+      'touchdragover', this.handleTopDragOverCapture, true
+    );
+    target.removeEventListener(
+      'touchdrop', this.handleTopDrop
+    );
+    target.removeEventListener(
+      'touchdrop', this.handleTopDropCapture, true
+    );
   }
 
   removeEventListeners(target) {
@@ -93,6 +162,8 @@ export default class HTML5Backend {
   }
 
   connectDragSource(sourceId, node, options) {
+    setupTouchDNDCustomEvents();
+
     this.sourceNodes[sourceId] = node;
     this.sourceNodeOptions[sourceId] = options;
 
@@ -102,6 +173,7 @@ export default class HTML5Backend {
     node.setAttribute('draggable', true);
     node.addEventListener('dragstart', handleDragStart);
     node.addEventListener('selectstart', handleSelectStart);
+    node.addEventListener('touchdragstart', handleDragStart);
 
     return () => {
       delete this.sourceNodes[sourceId];
@@ -109,6 +181,7 @@ export default class HTML5Backend {
 
       node.removeEventListener('dragstart', handleDragStart);
       node.removeEventListener('selectstart', handleSelectStart);
+      node.removeEventListener('touchdragstart', handleDragStart);
       node.setAttribute('draggable', false);
     };
   }
@@ -122,10 +195,18 @@ export default class HTML5Backend {
     node.addEventListener('dragover', handleDragOver);
     node.addEventListener('drop', handleDrop);
 
+    node.addEventListener('touchdragenter', handleDragEnter);
+    node.addEventListener('touchdragover', handleDragOver);
+    node.addEventListener('touchdrop', handleDrop);
+
     return () => {
       node.removeEventListener('dragenter', handleDragEnter);
       node.removeEventListener('dragover', handleDragOver);
       node.removeEventListener('drop', handleDrop);
+
+      node.removeEventListener('touchdragenter', handleDragEnter);
+      node.removeEventListener('touchdragover', handleDragOver);
+      node.removeEventListener('touchdrop', handleDrop);
     };
   }
 
