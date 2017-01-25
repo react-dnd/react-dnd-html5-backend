@@ -3,7 +3,7 @@ import * as NativeTypes from './NativeTypes';
 function getDataFromDataTransfer(dataTransfer, typesToTry, defaultValue) {
   const result = typesToTry.reduce((resultSoFar, typeToTry) =>
     resultSoFar || dataTransfer.getData(typeToTry),
-    null
+    null,
   );
 
   return (result != null) ? // eslint-disable-line eqeqeq
@@ -15,28 +15,27 @@ const nativeTypesConfig = {
   [NativeTypes.FILE]: {
     exposeProperty: 'files',
     matchesTypes: ['Files'],
-    getData: (dataTransfer) =>
-      Array.prototype.slice.call(dataTransfer.files)
+    getData: dataTransfer => Array.prototype.slice.call(dataTransfer.files),
   },
   [NativeTypes.URL]: {
     exposeProperty: 'urls',
     matchesTypes: ['Url', 'text/uri-list'],
     getData: (dataTransfer, matchesTypes) =>
-      getDataFromDataTransfer(dataTransfer, matchesTypes, '').split('\n')
+      getDataFromDataTransfer(dataTransfer, matchesTypes, '').split('\n'),
   },
   [NativeTypes.TEXT]: {
     exposeProperty: 'text',
     matchesTypes: ['Text', 'text/plain'],
     getData: (dataTransfer, matchesTypes) =>
-      getDataFromDataTransfer(dataTransfer, matchesTypes, '')
-  }
+      getDataFromDataTransfer(dataTransfer, matchesTypes, ''),
+  },
 };
 
 export function createNativeDragSource(type) {
   const {
     exposeProperty,
     matchesTypes,
-    getData
+    getData,
   } = nativeTypesConfig[type];
 
   return class NativeDragSource {
@@ -44,10 +43,10 @@ export function createNativeDragSource(type) {
       this.item = {
         get [exposeProperty]() {
           console.warn( // eslint-disable-line no-console
-            `Browser doesn't allow reading "${exposeProperty}" until the drop event.`
+            `Browser doesn't allow reading "${exposeProperty}" until the drop event.`,
           );
           return null;
-        }
+        },
       };
     }
 
@@ -75,7 +74,7 @@ export function createNativeDragSource(type) {
 export function matchNativeItemType(dataTransfer) {
   const dataTransferTypes = Array.prototype.slice.call(dataTransfer.types || []);
 
-  return Object.keys(nativeTypesConfig).filter(nativeItemType => {
+  return Object.keys(nativeTypesConfig).filter((nativeItemType) => {
     const { matchesTypes } = nativeTypesConfig[nativeItemType];
     return matchesTypes.some(t => dataTransferTypes.indexOf(t) > -1);
   })[0] || null;
