@@ -2,6 +2,11 @@ import { isSafari, isFirefox } from './BrowserDetector';
 import MonotonicInterpolant from './MonotonicInterpolant';
 
 const ELEMENT_NODE = 1;
+let zoom = 1.0;
+
+export function setZoom(value) {
+  zoom = value;
+}
 
 export function getNodeClientOffset(node) {
   const el = node.nodeType === ELEMENT_NODE ?
@@ -18,8 +23,8 @@ export function getNodeClientOffset(node) {
 
 export function getEventClientOffset(e) {
   return {
-    x: e.clientX,
-    y: e.clientY
+    x: e.clientX / zoom,
+    y: e.clientY / zoom
   };
 }
 
@@ -34,8 +39,8 @@ export function getDragPreviewOffset(sourceNode, dragPreview, clientOffset, anch
 
   const dragPreviewNodeOffsetFromClient = getNodeClientOffset(dragPreviewNode);
   const offsetFromDragPreview = {
-    x: clientOffset.x - dragPreviewNodeOffsetFromClient.x,
-    y: clientOffset.y - dragPreviewNodeOffsetFromClient.y
+    x: (clientOffset.x - dragPreviewNodeOffsetFromClient.x) * zoom,
+    y: (clientOffset.y - dragPreviewNodeOffsetFromClient.y) * zoom
   };
 
   const { offsetWidth: sourceWidth, offsetHeight: sourceHeight } = sourceNode;
