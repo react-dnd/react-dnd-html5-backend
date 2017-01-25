@@ -11,7 +11,7 @@ export default class HTML5Backend {
     this.actions = manager.getActions();
     this.monitor = manager.getMonitor();
     this.registry = manager.getRegistry();
-    this.window = manager.getContext();
+    this.context = manager.getContext();
 
     this.sourcePreviewNodes = {};
     this.sourcePreviewNodeOptions = {};
@@ -35,15 +35,19 @@ export default class HTML5Backend {
     this.endDragNativeItem = this.endDragNativeItem.bind(this);
   }
 
+  get window() {
+    return (this.context && this.context.window) || window;
+  }
+
   setup() {
     if (typeof this.window === 'undefined') {
       return;
     }
 
-    if (this.window.__isReactDndBackendSetUp) {
+    if (this.window.__isReactDndBackendSetUp) { // eslint-disable-line no-underscore-dangle
       throw new Error('Cannot have two HTML5 backends at the same time.');
     }
-    this.window.__isReactDndBackendSetUp = true;
+    this.window.__isReactDndBackendSetUp = true; // eslint-disable-line no-underscore-dangle
     this.addEventListeners(this.window);
   }
 
@@ -52,7 +56,7 @@ export default class HTML5Backend {
       return;
     }
 
-    this.window.__isReactDndBackendSetUp = false;
+    this.window.__isReactDndBackendSetUp = false; // eslint-disable-line no-underscore-dangle
     this.removeEventListeners(this.window);
     this.clearCurrentDragSourceNode();
   }
