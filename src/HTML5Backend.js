@@ -290,7 +290,7 @@ export default class HTML5Backend {
         const sourceId = this.monitor.getSourceId();
         const sourceNode = this.sourceNodes[sourceId];
         const dragPreview = this.sourcePreviewNodes[sourceId] || sourceNode;
-        const { anchorX, anchorY } = this.getCurrentSourcePreviewNodeOptions();
+        const { anchorX, anchorY, anchorOffsetX, anchorOffsetY } = this.getCurrentSourcePreviewNodeOptions();
         const anchorPoint = { anchorX, anchorY };
         const dragPreviewOffset = getDragPreviewOffset(
           sourceNode,
@@ -298,7 +298,11 @@ export default class HTML5Backend {
           clientOffset,
           anchorPoint,
         );
-        dataTransfer.setDragImage(dragPreview, dragPreviewOffset.x, dragPreviewOffset.y);
+
+        dataTransfer.setDragImage(dragPreview,
+          anchorOffsetX === undefined ? dragPreviewOffset.x : anchorOffsetX,
+          anchorOffsetY === undefined ? dragPreviewOffset.y : anchorOffsetY);
+        //this is the inlye
       }
 
       try {
