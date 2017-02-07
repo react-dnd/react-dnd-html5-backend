@@ -40,6 +40,7 @@
     "expect.js": "^0.3.1",
     "mocha": "^3.2.0",
     "npm-run-all": "^4.0.1",
+    "react-dnd": "^2.2.0",
     "rimraf": "^2.4.3",
     "webpack": "^1.12.2"
   },
@@ -47,6 +48,6 @@
     "lodash": "^4.2.0"
   },
   "peerDependencies": {
-    "react-dnd": "^2.0.0"
+    "react-dnd": "^2.2.0"
   }
 }
