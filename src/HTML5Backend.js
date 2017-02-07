@@ -492,6 +492,11 @@ export default class HTML5Backend {
     const { dropTargetIds } = this;
     this.dropTargetIds = [];
 
+    // Make sure we have dropTargetIds
+    if (!dropTargetIds || !dropTargetIds.length) {
+      return;
+    }
+
     this.actions.hover(dropTargetIds, {
       clientOffset: getEventClientOffset(e),
     });
