@@ -181,21 +181,11 @@ export default class HTML5Backend {
     this.currentNativeSource = new SourceType();
     this.currentNativeHandle = this.registry.addSource(type, this.currentNativeSource);
     this.actions.beginDrag([this.currentNativeHandle]);
-
-    // On Firefox, if mousemove fires, the drag is over but browser failed to tell us.
-    // This is not true for other browsers.
-    if (isFirefox()) {
-      this.window.addEventListener('mousemove', this.endDragNativeItem, true);
-    }
   }
 
   endDragNativeItem() {
     if (!this.isDraggingNativeItem()) {
       return;
-    }
-
-    if (isFirefox()) {
-      this.window.removeEventListener('mousemove', this.endDragNativeItem, true);
     }
 
     this.actions.endDrag();
