@@ -17,6 +17,12 @@ const nativeTypesConfig = {
     matchesTypes: ['Files'],
     getData: dataTransfer => Array.prototype.slice.call(dataTransfer.files),
   },
+  [NativeTypes.HTML]: {
+    exposeProperty: 'html',
+    matchesTypes: ['text/html'],
+    getData: (dataTransfer, matchesTypes) =>
+      getDataFromDataTransfer(dataTransfer, matchesTypes, '')
+  },
   [NativeTypes.URL]: {
     exposeProperty: 'urls',
     matchesTypes: ['Url', 'text/uri-list'],
