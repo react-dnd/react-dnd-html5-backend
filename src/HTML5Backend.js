@@ -45,10 +45,11 @@ export default class HTML5Backend {
     }
 
     if (this.window.__isReactDndBackendSetUp) { // eslint-disable-line no-underscore-dangle
-      throw new Error('Cannot have two HTML5 backends at the same time.');
+        // throw new Error('Cannot have two HTML5 backends at the same time.');
+    } else {
+      this.window.__isReactDndBackendSetUp = true; // eslint-disable-line no-underscore-dangle
+      this.addEventListeners(this.window);
     }
-    this.window.__isReactDndBackendSetUp = true; // eslint-disable-line no-underscore-dangle
-    this.addEventListeners(this.window);
   }
 
   teardown() {

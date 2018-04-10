@@ -1,3 +1,6 @@
+This is a fork of `react-dnd-html5-backend@2.2.0` to remove the error that is thrown when including this
+library twice when used with `npm link`.
+
 [![npm package](https://img.shields.io/npm/v/react-dnd-html5-backend.svg?style=flat-square)](https://www.npmjs.org/package/react-dnd-html5-backend)
 [![Build Status](https://travis-ci.org/react-dnd/react-dnd-html5-backend.svg?branch=master)](https://travis-ci.org/react-dnd/react-dnd-html5-backend)
 [![dependencies Status](https://david-dm.org/react-dnd/react-dnd-html5-backend/status.svg)](https://david-dm.org/react-dnd/react-dnd-html5-backend)
